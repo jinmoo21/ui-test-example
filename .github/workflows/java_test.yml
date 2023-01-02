@@ -15,7 +15,15 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           cache: 'maven'
+      - name: Install chrome
+        uses: nanasess/setup-chromedriver@v1.0.7
+      - name: Setup chromedriver
+        run: chromedriver --url-base=/wd/hub &
+      - name: Start XVFB
+        run: Xvfb :99 &
       - name: Test with TestNG
         run: |
           cd java
           mvn test
+        env:
+          DISPLAY: :99
